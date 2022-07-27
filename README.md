@@ -43,7 +43,7 @@ The time on the server is <%=new java.util.Date()%>
 ``` 
 We have body in HTML coe `<h3>Hello World of Java!</h3>`  and `The time on the server is` and the only java code is ` <%=new java.util.Date()%>`, So, with JSP we make use of angle bracket persent and inside it can put JSP element `<% %> `, in our example we use what we call a JSP experssion, for that we use `=` symbol. Here we create new Data object,This will give us the current time stamp and than include the output of the state object in the page, so in effect, it will call toString method on the state object and include the result of that in this page that goes back to the browser.
 
-## JSP Expressions 
+## Scripting Elements
 
 There are three types of scripting elements: 
 + JSP expressions
@@ -56,6 +56,8 @@ There are three types of scripting elements:
 | **JSP Scriptlet** | <% some java code: 1 to many lines %> |
 | **JSP Declaration** | <%! varibale or method declaration %> |
 
+
+### JSP Expressions 
 
 + Compute an expression 
 + Result is included in HTML returned to browser
