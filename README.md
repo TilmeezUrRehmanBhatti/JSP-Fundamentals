@@ -265,7 +265,7 @@ Let's have some fun: <%= FunUtils.makeItLower("FUN FUN FUN")%>
 </html>
 ```
 
-In **fun-test.jsp** in oder to call method'S define in **funUtils** class we use JSP expression but for that we need to give fully qualified class name `com.tilmeez.jspdemo.FunUtils.makeItLower(...)`   which includes **package name**, **Class name**, and **method name**. Also can used clean way by using import statement for that, in JSP file at top `<%@ page import="com.tilmeez.jspdemo.*" %>` with import we can clean up th JSP expression like ` <%= FunUtils.makeItLower("FUN FUN FUN")%>` we can also use **,** to import more package as reqiured like `<%@ page import="com.tilmeez.jspdemo.*, java.util.ArrayList" %>`
+In **fun-test.jsp** in oder to call method'S define in **funUtils** class we use JSP expression but for that we need to give fully qualified class name `com.tilmeez.jspdemo.FunUtils.makeItLower(...)`   which includes **package name**, **Class name**, and **method name**. Also can used clean way by using import statement for that, in JSP file at top `<%@ page import="com.tilmeez.jspdemo.*" %>` with import we can clean up th JSP expression like ` <%= FunUtils.makeItLower("FUN FUN FUN")%>` we can also use **,** to import more package as required like `<%@ page import="com.tilmeez.jspdemo.*, java.util.ArrayList" %>`
 
 ![image](https://user-images.githubusercontent.com/80107049/181297232-bb735181-c380-4b02-9413-3abfe496dbee.png)
 
@@ -322,4 +322,55 @@ Request language: <%=request.getLocale()%>
 
 In order to find what kind of browser is user using, we can access this information useing the `**request object**` e.g. `request.getheader` and than header name of User-Agent ` <%=request.getHeader("User-Agent")%>` this will get the actual browser that the client is using also the the operating system information.To get language used by user `<%=request.getLocale()%>`
 ![image](https://user-images.githubusercontent.com/80107049/181301938-37aa58d7-b9bc-4fff-9cff-a16266261296.png)
+
+##  Including Files in JSP
+
+Common use case of including files is including standard headers and footers. For example When building website need to display header and footer information on every page for this simply create header and footer in separate file and include in JSP files.
+
+```mermaid
+graph LR
+   
+    JSP-->my-header.html
+    JSP-->my-footer.jsp
+ ``` 
+ 
+ **my-header.html**
+```html
+<h1 align="center">JSP Tutorial</h1>
+``` 
+**my-footer.jsp**
+```JSP
+<p align="center">
+  Last updated: <%=new java.util.Date()%>
+</p>
+```
+
+**homepage.jsp**
+```JSP
+<%--
+  Created by IntelliJ IDEA.
+  User: tilme
+  Date: 27/07/2022
+  Time: 00:50
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<jsp:include page="my-header.html"/>
+
+Blah blah blah .... <br/><br/>
+Blah blah blah .... <br/><br/>
+Blah blah blah .... <br/><br/>
+Blah blah blah .... <br/><br/>
+
+<jsp:include page="my-footer.jsp"/>
+
+</body>
+</html>
+```
+![image](https://user-images.githubusercontent.com/80107049/181306392-b48d1ca6-cba6-4a12-8512-c06df93f8098.png)
 
