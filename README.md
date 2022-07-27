@@ -374,3 +374,94 @@ Blah blah blah .... <br/><br/>
 ```
 ![image](https://user-images.githubusercontent.com/80107049/181306392-b48d1ca6-cba6-4a12-8512-c06df93f8098.png)
 
+
+# HTML Forms Overview
+
+## Step 1: Build HTML Form
+
+
+```HTML
+<form action="student-response.jsp">
+  
+  First Name: <input type="text" name="firstName" />
+  
+  Last Name: <input type="text" name="lastName" />
+  
+  <input type="submit" value="Submit" />
+  
+</form>
+```
+
++ Start with form tag than specify action ( where to send specify data)`action="student-response.jsp`
++ Next set-up our text field, `intput type="text"` than give `name="firstName"` which will be use on server side
++ Next we have submit button,`input type="submit"` and `value="Submit"` value portion is for label.
++ When submit button is hit, the data will be send to JSP page to process.
+
+## Step 2: Reading Form data with JSP
+**HTML FILE**
+```HTML 
+First Name: <input type="text" name="firstName" />
+  
+Last Name: <input type="text" name="lastName" />
+```
+
+&emsp;&emsp;&emsp;**JSP FILE**
+```JSP
+          The student is confirmed:
+          <%= request.getParameter("firstName") %> <%= request.getParameter("lastName") %>
+          ```
+
++ In JSP file, data is read by `request.getParameter("firstName")`
++ Alternate syntax: `${param.formFieldName}
+
+```JAP
+The student is confirmed: ${param.firstName} ${param.lastName}
+```
+>**NOTE**   
+>Short cut method: Only use for display form data, if needed to read the data in maybe a scriptlet or something than have to resort back to `request.getParameter`.
+
+**studetn-form.html**
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration Form</title>
+</head>
+<body>
+
+<form action="student-form.jsp">
+
+    First Name: <input type="text" name="firstName"/>
+
+    <br/><br/>
+
+    Last Name: <input type="text" name="lastName"/>
+
+    <br/><br/>
+
+    <input type="submit" value="Submit"/>
+
+</form>
+
+</body>
+</html>
+```
+
+**student-form.jsp**
+```JSP
+<html>
+
+<head>
+    <title>Student Confirmation Title</title>
+</head>
+
+<body>
+
+    The student is confirmed: ${param.firstName} ${param.lastName}
+</body>
+</html>
+```
+![img.png](img.png)
+
+![img_1.png](img_1.png)
