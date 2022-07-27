@@ -61,10 +61,10 @@ There are three types of scripting elements:
 
 + Compute an expression 
 + Result is included in HTML returned to browser
-
+**Syntax**
 `<%= some Jave Expression %>`
 
-**JSP Expression - Examples**
+#### **JSP Expression - Examples**
 
 JSP file   
 `The time on the server is  <%=new java.util.Date()%>`    
@@ -106,4 +106,63 @@ Is 75 less than 69 ? <%= 75 < 69 %>
 ```
 ![image](https://user-images.githubusercontent.com/80107049/181247240-b9d833f5-4b5e-414b-b33f-40ba92a9de3e.png)
 
+### JSP Scriptlets
 
+A scriptlet is a JSP constrcut.
++ It allows to add/insert 1 to many lines of java code
++ To include content in page use:**out.println(...)**
+
+**Syntax**
+```JSP
+<%
+  // some lines of jave code
+%>
+```
+
+> That code will be executed top down when the page is processed.
+
+#### Code Example
+
+```JSP
+<h3>Hello World of Java</h3>
+
+<%
+  for (int i = 1; i <= 5; i++){
+    ot.println("<br/>I really love to code: " + i);
+  }
+%>
+```
+
+Hello World of Java and than we add a scriplets. Here insted of **system.out.println()**, we use **out.println()**, so this will be included in the html page that's return.
+
+scriptlet-test.jsp
+```JSP
+<%--
+  Created by IntelliJ IDEA.
+  User: tilme
+  Date: 26/07/2022
+  Time: 14:22
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Scriptlet Test</title>
+</head>
+<body>
+
+<h3>Hello World of Java</h3>
+<%
+  for (int i = 1; i <= 5; i++) {
+    out.println("<br/>I really love to code : " + i);
+  }
+%>
+</body>
+</html>
+```
+![image](https://user-images.githubusercontent.com/80107049/181274232-4594666d-ec4a-454b-9136-0f57d84e44c4.png)
+
+#### JSP Scriptlet - Best Practice
++ Minimize the amount if scriptlet code in JSP 
++ Avoid dumping thousands of lines of code in a JSP
++ Refactor into a seprate Java class ... make use of MVC
