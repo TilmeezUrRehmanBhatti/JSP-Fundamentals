@@ -62,7 +62,7 @@ There are three types of scripting elements:
 
 `<%= some Jave Expression %>`
 
-**JSP Expression - Example**
+**JSP Expression - Examples**
 
 JSP file   
 `The time on the server is  <%=new java.util.Date()%>`    
@@ -70,4 +70,38 @@ JSP file
  &emsp; Generated HTML  &emsp;&emsp;   \    
  &emsp;&emsp;&emsp;  `The time on the server is Wed Jul 27 14:11:29 CEST 2022`    
  
- 
+**expresion-test.jsp**
+```JSP
+<%--
+  Created by IntelliJ IDEA.
+  User: tilme
+  Date: 26/07/2022
+  Time: 14:08
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Expressions Test</title>
+</head>
+<body>
+
+Converting a string to uppercase: <%=new String("Hello World".toUpperCase())%>
+
+<br/><br/>
+
+25 multiplied by 4 equal <%= 25*4%>
+
+<br/><br/>
+
+Is 75 less than 69 ? <%= 75 < 69 %>
+
+
+
+</body>
+
+</html>
+```
+![image](https://user-images.githubusercontent.com/80107049/181247240-b9d833f5-4b5e-414b-b33f-40ba92a9de3e.png)
+
+
