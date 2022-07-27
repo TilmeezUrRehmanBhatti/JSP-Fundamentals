@@ -166,3 +166,64 @@ scriptlet-test.jsp
 + Minimize the amount if scriptlet code in JSP 
 + Avoid dumping thousands of lines of code in a JSP
 + Refactor into a seprate Java class ... make use of MVC
+
+### JSP Declarations
+A JSP declaration is used to declare variables and methods in a page's scripting language.
++ Declare a method in the JSP page
++ Call the method in the same JSP page 
+
+**Syntax**
+```JSP
+<%!
+  // declare a method
+%>
+```
+
+> The syntax is basically an angle bracket, percent,with an exclamation point, and then you declare your method like any normal Java method.
+
+#### Code Example
+```JSP
+<%!
+  String makeItLower(String data){
+    return data.toLowerCase();
+  }
+%>
+
+Lower case "Hello World": <%= makeItLower("Hello World") %>
+```
+Uptop, declare a method using a declaration syntax. just like a normal Java method declaration. Have a return type of string, the name of the method, makeItLower, any input parameters, in this case we have string data, and then internally inside the body  you write your actual implementation code.
+
+At the bottom we make use of that method, b using JSP expression.
+
+```JSP 
+<%--
+  Created by IntelliJ IDEA.
+  User: tilme
+  Date: 26/07/2022
+  Time: 22:39
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Declaration Test</title>
+</head>
+<body>
+
+<%!
+  String makeItLower(String data) {
+    return data.toLowerCase();
+  }
+%>
+
+Lower case "Hello World": <%=makeItLower("Hello World")%>
+
+</body>
+</html>
+```
+![image](https://user-images.githubusercontent.com/80107049/181279660-90c5001d-3d51-47be-ae88-e5a0a26e3547.png)
+
+#### JSP Declaration - Best Practice
++ Minimize the number of declarations in a JSP
++ Aviod dumping thousand of lines of code in a JSP
++ Refactor this into a separate Java class ... make use of MVC
