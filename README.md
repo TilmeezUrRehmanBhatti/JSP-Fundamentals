@@ -269,3 +269,57 @@ In **fun-test.jsp** in oder to call method'S define in **funUtils** class we use
 
 ![image](https://user-images.githubusercontent.com/80107049/181297232-bb735181-c380-4b02-9413-3abfe496dbee.png)
 
+## JSP Built-In Objects
++ Given to you for free
++ Use  them directly in your JSP page  
+    
+<br/>
+
++ List of commonly used JSP objects
+
+| Objects         | Description                                         |
+| --------------- | --------------------------------------------------- |
+| **request**     | Contains HTTP request header and form data          |
+| **response**    | Provides HTTP support for sending response          |
+| **out**         | JspWriter for including content in HTML page        |
+| **session**     | Unique session for each user of the web application |
+| **application** | Shared data for all users of the web application    |
+
+
+![image](https://user-images.githubusercontent.com/80107049/181299760-cd8e9451-4bde-4fbd-ba7f-17fded69fea3.png)
+
+The browser communicating with JSP. Behind the scenes, the HTTP protocol, they actually send over a request object. This request object contains header information and body information. The JSP can perform some work on that information and then send back a response. So, we have the whole request/response protocol going.
+
+### Code Example:
+
+**builtin-test.jsp**
+
+```JSP
+<%--
+  Created by IntelliJ IDEA.
+  User: tilme
+  Date: 27/07/2022
+  Time: 00:29
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>JSP Built-In Objects</title>
+</head>
+<body>
+<h3>JSP Built-In Objects</h3>
+
+Request user agent: <%=request.getHeader("User-Agent")%>
+
+<br/><br/>
+
+Request language: <%=request.getLocale()%>
+
+</body>
+</html>
+```
+
+In order to find what kind of browser is user using, we can access this information useing the `**request object**` e.g. `request.getheader` and than header name of User-Agent ` <%=request.getHeader("User-Agent")%>` this will get the actual browser that the client is using also the the operating system information.To get language used by user `<%=request.getLocale()%>`
+![image](https://user-images.githubusercontent.com/80107049/181301938-37aa58d7-b9bc-4fff-9cff-a16266261296.png)
+
