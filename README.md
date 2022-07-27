@@ -227,3 +227,45 @@ Lower case "Hello World": <%=makeItLower("Hello World")%>
 + Minimize the number of declarations in a JSP
 + Aviod dumping thousand of lines of code in a JSP
 + Refactor this into a separate Java class ... make use of MVC
+
+## Call Java Class from JSP
+
+**FunUtils.java**
+```JAVA
+package com.tilmeez.jspdemo;
+
+public class FunUtils {
+
+    public static String makeItLower(String data) {
+        return data.toLowerCase();
+    }
+}
+```
+
+
+**fun-test.jsp**
+```JSP
+<%--
+  Created by IntelliJ IDEA.
+  User: tilme
+  Date: 27/07/2022
+  Time: 00:23
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="com.tilmeez.jspdemo.*" %>
+<html>
+<head>
+    <title>Fun Test</title>
+</head>
+<body>
+
+Let's have some fun: <%= FunUtils.makeItLower("FUN FUN FUN")%>
+
+</body>
+</html>
+```
+
+In **fun-test.jsp** in oder to call method'S define in **funUtils** class we use JSP expression but for that we need to give fully qualified class name `com.tilmeez.jspdemo.FunUtils.makeItLower(...)`   which includes **package name**, **Class name**, and **method name**. Also can used clean way by using import statement for that, in JSP file at top `<%@ page import="com.tilmeez.jspdemo.*" %>` with import we can clean up th JSP expression like ` <%= FunUtils.makeItLower("FUN FUN FUN")%>` we can also use **,** to import more package as reqiured like `<%@ page import="com.tilmeez.jspdemo.*, java.util.ArrayList" %>`
+
+![image](https://user-images.githubusercontent.com/80107049/181297232-bb735181-c380-4b02-9413-3abfe496dbee.png)
+
