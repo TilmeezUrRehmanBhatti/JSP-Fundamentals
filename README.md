@@ -554,3 +554,96 @@ The student's country: ${param.country}
 ```
         
 ![img_2.png](img_2.png)
+
+## Radio Button
+**HTML for Radio Button**
+```HTML
+<input type="radio" name="favoriteLanguage" value="Java"> Java
+<input type="radio" name="favoriteLanguage" value="C#"> C#
+<input type="radio" name="favoriteLanguage" value="PHP"> PHP
+<input type="radio" name="favoriteLanguage" value="Ruby"> Ruby
+```
+
+<input type="radio" name="favoriteLanguage" value="Java"> Java
+<input type="radio" name="favoriteLanguage" value="C#"> C#
+<input type="radio" name="favoriteLanguage" value="PHP"> PHP
+<input type="radio" name="favoriteLanguage" value="Ruby"> Ruby
+
+
++ The `<input>` tag specifies an input field where the user can enter data.
++ The `<input>` element is the most important form element.
++ The `<input>` element can be displayed in several ways, depending on the type attribute.
+    * `<input type="button">`
+    * `<input type="checkbox">`
+    * `<input type="color">`
+    * `<input type="date">`
+    * `<input type="datetime-local">`
+    * `<input type="email">`
+    * `<input type="file">`
+    * `<input type="hidden">`
+    * `<input type="image">`
+    * `<input type="month">`
+    * `<input type="number">`
+    * `<input type="password">`
+    * `<input type="radio">`
++ The type attribute specifies the type of `<input>` element to display.
++ If the type attribute is not specified, the default type is "text".
+
+
+**student-radio-form.html**
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration Form</title>
+</head>
+<body>
+
+<form action="student-radio-response.jsp">
+
+    First Name: <input type="text" name="firstName"/>
+
+    <br/><br/>
+
+    Last Name: <input type="text" name="lastName"/>
+
+    <br/><br/>
+
+    <input type="radio" name="favoriteLanguage" value="Java"> Java
+    <input type="radio" name="favoriteLanguage" value="C#"> C#
+    <input type="radio" name="favoriteLanguage" value="PHP"> PHP
+    <input type="radio" name="favoriteLanguage" value="Ruby"> Ruby
+
+    <br/><br/>
+
+    <input type="submit" value="Submit"/>
+
+</form>
+
+</body>
+</html>
+```
+
+![img_4.png](img_4.png)
+
+**student-radio-response.jsp**
+```JSP
+<html>
+
+<head>
+    <title>Student Confirmation Title</title>
+</head>
+
+<body>
+
+The student is confirmed: ${param.firstName} ${param.lastName}
+
+<br/><br/>
+
+The student's programming Language: ${param.favoriteLanguage}
+</body>
+</html>
+```
+
+![img_5.png](img_5.png)
