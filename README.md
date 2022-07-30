@@ -465,3 +465,92 @@ The student is confirmed: ${param.firstName} ${param.lastName}
 ![img.png](img.png)
 
 ![img_1.png](img_1.png)
+
+## Drop-Down list
+
+**Drop-Down List - HTML `<select>` Tag**
+
+```HTML
+<select name="country">
+  <option>Brazil</option>
+  <option>France</option>
+  <option>Germany</option>
+  <option>India</option>
+  <option>Pakistan</option>
+</select>
+```
+
+<select name="country">
+  <option>Brazil</option>
+  <option>France</option>
+  <option>Germany</option>
+  <option>India</option>
+  <option>Pakistan</option>
+</select>
+
+
+
++ To make drop-down list in HTML, `<select>` tag is used .
++ To put options is drop-down list, `<option>` tag is used inside  `<select>` tag.
++ `select name="country"` thats the name of form field that will be used in JSP page to read from data.
+
+**student-dropdown-from.html**
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration Form</title>
+</head>
+<body>
+
+<form action="student-dropdown-response.jsp">
+
+    First Name: <input type="text" name="firstName"/>
+
+    <br/><br/>
+
+    Last Name: <input type="text" name="lastName"/>
+
+    <br/><br/>
+
+    <select name="country">
+        <option>Brazil</option>
+        <option>France</option>
+        <option>Germany</option>
+        <option>India</option>
+        <option>Pakistan</option>
+    </select>
+
+    <br/><br/>
+
+    <input type="submit" value="Submit"/>
+
+</form>
+
+</body>
+</html>
+```
+![img_3.png](img_3.png)   
+
+**student-dropdown-response.jsp**
+```JSP
+<html>
+
+<head>
+    <title>Student Confirmation Title</title>
+</head>
+
+<body>
+
+The student is confirmed: ${param.firstName} ${param.lastName}
+
+<br/><br/>
+
+The student's country: ${param.country}
+
+</body>
+</html>
+```
+        
+![img_2.png](img_2.png)
