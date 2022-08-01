@@ -647,3 +647,94 @@ The student's programming Language: ${param.favoriteLanguage}
 ```
 
 ![img_5.png](img_5.png)
+
+## Checkboxes
+
+**HTML \<input type="checkbox">**
++ The `<input type="checkbox">` defines a checkbox.
++ The checkbox is shown as a square box that is ticked (checked) when activated.
++ Checkboxes are used to let a user select one or more options of a limited number of choices.
+
+> **Tip:** Always add the `<label>` tag for best accessibility practices!
+
+```HTML
+<input type="checkbox" name="favotireLanguage" value="Java"> Java
+<input type="checkbox" name="favotireLanguage" value="C#"> C#
+<input type="checkbox" name="favotireLanguage" value="PHP"> PHP
+<input type="checkbox" name="favotireLanguage" value="Ruby"> Ruby
+```
+<form>
+<input type="checkbox" name="favotireLanguage" value="Java"> Java
+<input type="checkbox" name="favotireLanguage" value="C#"> C#
+<input type="checkbox" name="favotireLanguage" value="PHP"> PHP
+<input type="checkbox" name="favotireLanguage" value="Ruby"> Ruby
+</form>
+
+
+**student-checkbox-form.html**
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration Form</title>
+</head>
+<body>
+
+<form action="student-checkbox-response.jsp">
+
+    First Name: <input type="text" name="firstName"/>
+
+    <br/><br/>
+
+    Last Name: <input type="text" name="lastName"/>
+
+    <br/><br/>
+
+    <input type="checkbox" name="favoriteLanguage" value="Java"> Java
+    <input type="checkbox" name="favoriteLanguage" value="C#"> C#
+    <input type="checkbox" name="favoriteLanguage" value="PHP"> PHP
+    <input type="checkbox" name="favoriteLanguage" value="Ruby"> Ruby
+    
+    <br/><br/>
+
+    <input type="submit" value="Submit"/>
+
+</form>
+
+</body>
+</html>
+```
+![img_6.png](img_6.png)
+
+
+**student-checkbox-response.jsp**
+```JSP
+<html>
+
+<head>
+    <title>Student Confirmation Title</title>
+</head>
+
+<body>
+
+The student is confirmed: ${param.firstName} ${param.lastName}
+  Favorite Programming Languages: <br/>
+<br/><br/>
+<!-- display list of "favorite language" -->
+<ul>
+    <%
+        String[] langs = request.getParameterValues("favoriteLanguage");
+
+         if (langs != null) {
+            for (String tempLang : langs) {
+                out.println("<li>" + tempLang + "</li>");
+            }
+        }
+    %>
+</ul>
+</body>
+</html>
+```
+
+![img_7.png](img_7.png)

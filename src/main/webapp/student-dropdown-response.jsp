@@ -11,6 +11,5 @@ The student is confirmed: ${param.firstName} ${param.lastName}
 <br/><br/>
 
 The student's country: ${param.country}
-<input type="">
 </body>
 </html>
