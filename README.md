@@ -738,3 +738,334 @@ The student is confirmed: ${param.firstName} ${param.lastName}
 ```
 
 ![img_7.png](img_7.png)
+
+## Tracking user actions with Sessions
++ JSP session is created once for user's browser session. Unique for this user.
++ Commonly used when you need to keep track of the user's actions.
+
+**For Example**
++ Shopping cart
++ Online Banking
++ Online Exam
+
+![img_8.png](img_8.png)
+
+**Add data to session object**
+
+<ins>_Method signature_</ins>
+  ```JAVA
+session.setAttribute(String name, Object value)
+```
++ make use of the built-in session object `session.setAttribute`.
++ String name is a label.
++ Object value is a object that is gonna placed in session.
+
+<ins>_Code example_</ins>
+```Java
+List<String> items = new ArrayList<>();
+session.setAttribute("myToDoList", items);
+```
+
+**Retrieve data from session object**
+<ins>_Method signature_</ins>
+```JAVA
+Object session.getAttribute(String name)
+```
++ To retrieve data, the method signature is `session.getAttribute`.
++ String name is the name of the item that is retrieving, it will return a plain object.
+
+<ins>_Code example_</ins>
+```JAVA
+List<String> myStuff = (List<String>) session.getAttribute("myToDOList");
+```
+
+>`(List<String>)` is Downcast the object to appropriate type
+
+## JSP Session - Other useful methods
+
+| Method                                    | Description                                                                      |
+| ----------------------------------------- | -------------------------------------------------------------------------------- |
+| isNew() : boolean                         | Return true if the session is new                                                |
+| getId() : String                          | Returns the session id                                                           |
+| invalidate() : void                       | Invalidates this session and unbinds any object associated with it               |
+| setMaxInactiveInterval(long mills) : void | Set the idle time for a session to expire. The value is supplied in milliseconds |
+
+**todo-demo.jsp**
+```HTML
+<%@ page import="java.util.*" contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<!-- Step 1: Create HTML form -->
+<form action="todo-demo.jsp">
+
+    Add new item: <input type="text" name="theItem" />
+
+    <input type="submit" value="Submit" />
+</form>
+
+<br>
+
+
+
+<!-- Step 2: Add new item to "To Do list -->
+<%
+    // get the TO Do items from the session
+    List<String> items = (List<String>) session.getAttribute("myToDoList");
+
+    // if the To Do items doesn't exist, then create a new one
+    if (items == null) {
+        items = new ArrayList<String>();
+        session.setAttribute("myToDoList", items);
+    }
+
+    // see if there is form data to add
+    String theItem = request.getParameter("theItem");
+
+    //
+    // Code BLOCK for boolean and if/then statement
+    //
+    boolean isItemNotEmpty = theItem != null && theItem.trim().length() > 0;
+    boolean isItemNotDuplicate = theItem != null && !items.contains(theItem.trim());
+
+    if (isItemNotEmpty && isItemNotDuplicate) {
+    items.add(theItem);
+    }
+%>
+
+<!-- Step 3: Display all "To Do" item from session -->
+<hr>
+<b>To List Items:</b> <br/>
+
+<ol>
+    <%
+        for (String temp : items) {
+            out.println("<li>" + temp + "</li>");
+        }
+    %>
+</ol>
+
+</body>
+</html>
+</body>
+```
+![img_9.png](img_9.png)
+
+Now let's explain each section in detail
+
+` <%@ page import="java.util.*" %>  `
+
+This code performs an import of the package java.util. We make use of the List and ArrayList from this package.
+
+\--
+
+```HTML
+    <html> 
+    <body>
+```
+
+basic HTML set up code
+
+\---
+
+**\<!-- Step 1: Create HTML form -->**
+
+
+```HTML
+    <form action="todo-demo.jsp">
+          Add new item: <input type="text" name="theItem" />    
+    
+          <input type="submit" value="Submit" />   
+    </form>
+```
+
+This code creates an HTML form. The action will point back to the same JSP. So effectively, we are submitting form data back to ourselves. This form will read a text input from the user. The field is named "theItem". We'll read this field later to add it to your list. The form also includes a submit button.
+
+\---
+
+This is a big section, so let's break down in detail even further.
+
+At a high-level, we are going to add a new item to our to do list.
+
+The high-level steps include
+
+1\. Get the TO DO items from the session
+
+2\. If the TO DO items doesn't exist in the session, then create a new list and add it to the session
+
+3\. Check to see if there is any form data to add.
+
+Okay, let's break it down in detail with code examples.
+
+\----
+
+**\<!-- Step 2: Add new item to "To Do" list -->**
+
+
+```JAVA
+    <%     
+          // get the TO DO items from the session    
+          List<String> items = (List<String>) 
+          session.getAttribute("myToDoList");
+```
+
+This section of code access the JSP session object. The session object is unique for each web user. We attempt to get the TO DO items from the session. We make use of the attribute name "myToDoList". This is basically the key/label to look up data from the session.
+
+The session.getAttribute method will always return something of type java.lang.Object. We downcast this to List\<String> because we are making use of strings to keep track of our to do items.
+
+This is assigned to the variable "items". This variable holds an object reference to the data that we retrieved from the session object. We can use this variable later in the program to add items and also display items.
+
+\----
+
+**// if the TO DO items doesn't exist, then create a new one**
+
+
+```
+        if (items == null) {
+              items = new ArrayList<String>();
+              session.setAttribute("myToDoList", items);        }
+```
+
+This section of code checks to see if the TO DO items doesn't exist. If checks the variable "items" to see if it is null. If "items" is null then that means the TO DO items do not exist. Think of this as like a shopping cart .... your cart doesn't exist.
+
+As a result, we need to create a new list and assign to items.
+
+Then we place the items in the session. We make use of the name, value pair.  The attribute name is "myToDoList" and the object is the "items" variable.
+
+\---
+
+  
+**// see if there is form data to add**
+
+
+```JAVA
+        String theItem = request.getParameter("theItem");
+        if (theItem != null && (!theItem.trim().equals(""))) {
+        items.add(theItem);
+        }
+       %>
+```
+
+This section of code checks to see if there is form data to add. It reads the form data with the request.getParameter("theItem").  This is assigned to a variable. If the theItem variable is not null, then that means the user entered some data. Then we add theItem to our "items" array list.
+
+Since we're using object references, remember that "items" is a variable that holds a reference to an object. Then it points to the same area of memory that is used by the session. So in effect, the users's session has now been updated with this new entry.
+
+\---
+
+**\<!-- Step 3: Display all "To Do" item from session -->**
+
+```HTML
+    <hr> 
+    <b>To List Items:</b> <br/>
+    <ol>
+    <%   
+    for (String temp : items) { 
+          out.println("<li>" + temp + "</li>");    
+          } 
+    %>    
+    </ol>
+```
+
+This section of code displays all of the "To Do" items from the session.
+
+We make use of our variable "items" because it is our object reference to the data.
+
+We use the "items" variable in the for loop to display the contents of each string in our array list.
+
+To display data, we make use of "out.println".
+
+\---
+
+```HTML
+    </body> 
+    </html>
+```
+
+This code just wraps up the HTML page.
+
+
+### FAQ: Details on PageContext and Session objects
+
+**PageContext**
+
+****
+
+
+**>> Please define clearly what pageContext is and what it does.**
+
+A PageContext instance provides access to all the namespaces associated with a JSP page, provides access to several page attributes, as well as a layer above the implementation details. Implicit objects are added to the pageContext automatically.
+
+The PageContext provides a number of facilities to the developer, including:
+
+\- a single API to manage the various scoped namespaces  
+\- a number of convenience API's to access various public objects  
+\- a mechanism to obtain the JspWriter for output  
+\- a mechanism to manage session usage by the page  
+\- a mechanism to expose page directive attributes to the scripting environment  
+\- mechanisms to forward or include the current request to other active components in the application  
+\- a mechanism to handle errorpage exception processing
+
+**>> And how is pageContext.setAttribute("name", value) different from session.setAttribute("name", value).**
+
+PageContext has a set of attributes that are different from the Session object.
+
+The attributes set on PageContext are only available for a given page. The attributes are not available to other pages or servlets in the application.
+
+Session attributes are created per each user's session. The session attributes are unique to a given session id. Session attributes are available to other pages and servlets in the application for a given session id.
+
+**>> Your session ID is: ${pageContext.session.id}, why do this if we could get the session ID doing this: session.getId().**
+
+As stated above, PageContext has a handle to the session object. You can access the session object via the pageContext or you can access the session object directly. Two different mechanisms for accessing the same object.
+
+**>> Please also include how it's instantiated and where it comes from besides its purpose.**
+
+The PageContext is implicitly instantiated by the application server.
+
+The JSP page will always have access to the PageContext.
+
+\====
+
+
+
+
+**Session Object**
+
+*By default, JSPs have session tracking enabled and a new HttpSession object is instantiated for each new client automatically. Disabling session tracking requires explicitly turning it off by setting the page directive session attribute to false as follows:*
+
+
+*<%@ page session="false" %>*
+
+
+
+*The JSP engine exposes the HttpSession object to the JSP author through the implicit **session** object. Since **session** object is already provided to the JSP programmer, the programmer can immediately begin storing and retrieving data from the object without any initialization or getSession().*
+
+*Just thought it may be useful to somebody that keeps wondering where the session object comes from.*
+
+
+\===
+
+**Question**
+
+When does the object we store in the session get updated? How does it work behind the scenes?
+
+**Answer**
+
+When you use the statement:
+
+` List<String> items = (List<String>) session.getAttribute("myToDoList");  `
+
+The "items" variable is pointing to the SAME object in the session. You don't get a local copy. You are pointing to the same object.
+
+Any changes to the "items" variable such as calling "items.add(...)" performs the update on the session object since we are pointing to the same object.
+
+As a result, there is no need to explicitly update the session object.
+
+You are not required to use the code below
+
+` session.setAttribute("myToDoList", items);  `
+
+\---
+
+The key here is that we are pointing to the same object in the session.
