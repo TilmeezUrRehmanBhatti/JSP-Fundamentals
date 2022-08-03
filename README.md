@@ -781,7 +781,7 @@ List<String> myStuff = (List<String>) session.getAttribute("myToDOList");
 
 >`(List<String>)` is Downcast the object to appropriate type
 
-## JSP Session - Other useful methods
+### JSP Session - Other useful methods
 
 | Method                                    | Description                                                                      |
 | ----------------------------------------- | -------------------------------------------------------------------------------- |
@@ -1069,3 +1069,238 @@ You are not required to use the code below
 \---
 
 The key here is that we are pointing to the same object in the session.
+
+##  Personalize Content with Cookies - Overview
+
+**What is the Purpose of Cookies?**
++ Personalized a web site for a user
++ keep track of user preferences
+  + Favorite programming language:Java
+  + Favorite departure airport: Dusseldorf (DUS)
+
+**What is Cookie?**
++ Text data exchange between web browser and server
+
+```mermaid
+stateDiagram-v2
+    direction LR
+    WebBrowser --> Server: Cookie
+    Server --> WebBrowser: Cookie 
+```
+
+**Cookies - Contents**
++ Name / value pair
+
+![img_10.png](img_10.png)  ![clipboard.png](inkdrop://file:ovPaLWlDD)
++ Application can actually create many cookies, the max us about **20 cookies** per site path.
+
+**How are Cookies passed?**
++ Browser will only send cookies that match the server's domain name.
+
+### Cookie API
+
+**Package**
++ **Cookie** class defined in package:**javax.servlet.http**
+  + Package imported for free in all JSP pages
+
+
+**Constructor**
+
+**`Cookie(String name, String value)`**   
+Construct a cookie with specified name and value
+
+**Sending Cookies to Browser**
+
+Code for sending cookies to a browser
+
+```JSP
+<%
+   String favLang = request.getParameter("favoriteLanguage");
+   
+   // create cookie
+   Cookie theCookie = new Cookie("nyApp.favoriteLanguage", favLang);
+   
+   // set life span ... total number of secounds
+   theCookie.setMaxAge(60*60*24*365);
+   
+   // send cookie to browser
+   reponse.addCookie(theCookie);
+%>
+```
+
++ Reading from form data `request.getParameter("favoriteLanguage")`
++ Create the cookie `new Cookie("nyApp.favoriteLanguage", favLang)` with name and value respectively
++ Set the life span of cookie`theCookie.setMaxAge()`, that cookie will expire on. By default life span is 0. To set the maxAge as the total number of seconds.
++ Send the cookie to browser `response.addCookie(theCookie)` by load it up into response object.
+
+
+**Reading Cookies from the Browser**
+
+```JSP
+<!-- read the favorite programming language cookie -->
+<%  
+  String favLang = "Java";
+
+  Cookie[] theCookies = request.getCookies();
+
+  if (theCookies != null) {
+    for (Cookies tempCookie : theCookies) {
+      
+      if ( "myApp.favoriteLanguage".equals(tempCookies.getName())) {
+        faveLang = tempCookie.getValue();
+        break;
+      }
+     
+    }
+  }
+%>
+```
++ To get a handle to the cookies, request object is used by `request.getCookies()` that will return the array of cookies.
++ Check the cookies that they are not equal to null
++ Loop all the cookies, until find the required cookie and break out the loop
+
+**cookies-personalized-form.html**
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Personalized The Site</title>
+</head>
+<body>
+
+<form action="cookies-personalized-response.jsp">
+    Select your Favorite Programming Language
+    <select name="favoriteLanguage">
+        <option>Java</option>
+        <option>C#</option>
+        <option>PHP</option>
+        <option>Ruby</option>
+    </select>
+
+    <br/><br/>
+
+    <input type="submit" value="Submit" />
+
+</form>
+</body>
+</html>
+```
+
+
+**cookies-personalize-response.jsp**
+```JSP
+<html>
+
+<head>
+    <title>Confirmation</title>
+</head>
+
+<%
+    // read form data
+    String favLang = request.getParameter("favoriteLanguage");
+
+    // create the cookie
+    Cookie theCookie = new Cookie("myApp.favoriteLanguage", favLang);
+
+    // set the life span ... total number of seconds
+    theCookie.setMaxAge(60 * 60 * 24 * 365); // <-- for one year
+
+    // send cookies to browser
+    response.addCookie(theCookie);
+%>
+<body>
+    Thanks! We set your favorite language to: ${param.favoriteLanguage}
+
+    <br/><br/>
+
+    <a href="cookies-homepage.jsp">Return to homepage.</a>
+</body>
+</html>
+```
+
+**cookies-homepage.jsp**
+```JSP
+<html>
+
+<body>
+<h3>Training Portal</h3>
+
+<! -- read the favorite programming language cookie
+<%
+    // the default ... if there are no cookies
+    String favLang = "Java";
+
+    // get the cookies from the browser request
+    Cookie[] theCookies = request.getCookies();
+
+    // find our favorite language cookie
+    if (theCookies != null) {
+        for (Cookie tempCookie : theCookies) {
+            if ("myApp.favoriteLanguage".equals(tempCookie.getName())) {
+                faveLang = tempCookie.getValue();
+                break;
+            }
+        }
+    }
+%>
+
+<!-- now show a personalized page ... use the "favLang variable -->
+
+<!-- show new books for this lang -->
+<h4>New Books for <%= favLang %></h4>
+<ul>
+    <li>blah blah blah</li>
+    <li>blah blah blah</li>
+</ul>
+
+<h4>Latest News Reports for <%= favLang %></h4>
+<ul>
+    <li>blah blah blah</li>
+    <li>blah blah blah</li>
+</ul>
+
+<h4>Hot Jobs for <%= favLang %></h4>
+<ul>
+    <li>blah blah blah</li>
+    <li>blah blah blah</li>
+</ul>
+<a href="cookies-personalized-form.html">Personalize this page</a>
+</body>
+</html>
+```
+![img_11.png](img_11.png)
+![img_12.png](img_12.png)
+![img_13.png](img_13.png)
+![img_14.png](img_14.png)
+**Question: **
+
+How to handle white-space in Cookie values?
+
+\---
+
+
+**Answer:**
+
+To resolve this issue, we need to URL encode the cookie values.
+
+Java provides two classes for URL encoding and decoding:  
+java.net.URLEncoder, java.net.URLDecoder.
+
+As an overview, these are the changes that need to be made.
+
+In the file: **cookies-homepage.jsp**:  add code to URL decode the cookie value
+
+```JSP
+    // decode cookie data ... handle case of languages with spaces in them 
+    favLang = URLDecoder.decode(tempCookie.getValue(), "UTF-8");
+```
+
+In the file: **cookies-personalize-response.jsp**: add code to URL encode the cookie value
+
+```JSP
+    // encode cookie data ... handle case of languages with spaces in them  
+    favLang = URLEncoder.encode(favLang, "UTF-8");
+```
+
+Here is the complete code for this example. Make note of the import statements in the JSP pages.
